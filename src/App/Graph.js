@@ -1,22 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import propTypes from "prop-types";
+import { getData } from "../redux/selectors";
 import { Graph } from "../Graph/index";
 
-const data = {
-  nodes: [
-    { id: "P1", marks: "3" },
-    { id: "T1", symbolType: "square" },
-    { id: "P2", marks: "3" },
-    { id: "P3", marks: "3" },
-    { id: "P4", marks: "3" }
-  ],
-  links: [
-    { source: "P1", target: "T1" },
-    { source: "T1", target: "P2" },
-    { source: "P3", target: "T1" },
-    { source: "T1", target: "P4" }
-  ]
-};
+const mapStateToProps = state => ({
+  graphData: getData(state)
+});
 
 const myConfig = {
   directed: true,
@@ -38,12 +29,23 @@ const myConfig = {
   }
 };
 
-function GraphComponent() {
-  return (
-    <GraphBoxStyled>
-      <Graph id="graph-id" data={data} config={myConfig}></Graph>
-    </GraphBoxStyled>
-  );
+class GraphComponent extends React.Component {
+  static propTypes = {
+    graphData: propTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    graphData: ""
+  };
+
+  render() {
+    const { graphData } = this.props;
+    return (
+      <GraphBoxStyled>
+        <Graph id="graph-id" data={graphData} config={myConfig}></Graph>
+      </GraphBoxStyled>
+    );
+  }
 }
 
 const GraphBoxStyled = styled.div`
@@ -53,4 +55,4 @@ const GraphBoxStyled = styled.div`
   background-color: white;
 `;
 
-export default GraphComponent;
+export default connect(mapStateToProps)(GraphComponent);
