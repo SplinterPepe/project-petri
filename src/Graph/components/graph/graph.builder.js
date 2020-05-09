@@ -255,7 +255,7 @@ function buildNodeProps(
     stroke,
     strokeWidth: strokeWidth * t,
     svg,
-    type: node.symbolType || config.node.symbolType,
+    type: node.nodeType || config.node.nodeType,
     viewGenerator: node.viewGenerator || config.node.viewGenerator,
     onClickNode: nodeCallbacks.onClickNode,
     onMouseOut: nodeCallbacks.onMouseOut,
