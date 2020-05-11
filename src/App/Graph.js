@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
-import { getData } from "../redux/selectors";
+import { getCurrentState } from "../redux/selectors";
 import { Graph } from "../Graph/index";
 
 const mapStateToProps = state => ({
-  graphData: getData(state)
+  graphData: getCurrentState(state)
 });
 
 const myConfig = {
@@ -14,7 +14,7 @@ const myConfig = {
   nodeHighlightBehavior: true,
   linkHighlightBehavior: true,
   height: 720,
-  width: 1280,
+  width: 720,
   node: {
     color: "#748700",
     size: 150,
@@ -31,11 +31,7 @@ const myConfig = {
 
 class GraphComponent extends React.Component {
   static propTypes = {
-    graphData: propTypes.string.isRequired
-  };
-
-  static defaultProps = {
-    graphData: ""
+    graphData: propTypes.object.isRequired
   };
 
   render() {
