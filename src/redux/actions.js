@@ -7,14 +7,14 @@ export function toggleEditMenu() {
   return { type: TOGGLE_EDIT_MENU };
 }
 
-export function submitTemporaryState(payload) {
-  return { type: SUBMIT_TEMPORARY_STATE, payload };
+export function submitTemporaryState({ nodes, links }) {
+  return { type: SUBMIT_TEMPORARY_STATE, payload: { nodes, links } };
 }
 
-export function setTemporaryStateToCurrent(payload) {
-  return { type: SET_TEMPORARY_STATE_TO_CURRENT, payload };
+export function setTemporaryStateToCurrent({ nodes, links }) {
+  return { type: SET_TEMPORARY_STATE_TO_CURRENT, payload: { nodes, links } };
 }
 
 export function fireTransition(payload) {
-  return { type: FIRE_TRANSITION, payload };
+  return { type: FIRE_TRANSITION };
 }

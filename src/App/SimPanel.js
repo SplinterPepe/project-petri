@@ -1,17 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import propTypes from "prop-types";
+import { fireTransition } from "../redux/actions";
+import PropTypes from "prop-types";
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  handleFireTransition: fireTransition
+};
 
 class SimComponent extends React.Component {
+  static propTypes = {
+    handleFireTransition: PropTypes.func.isRequired
+  };
+
   render() {
+    const { handleFireTransition } = this.props;
+
     return (
       <SimComponentStyled>
-        <button>Play</button>
+        <button
+          onClick={() => {
+            handleFireTransition();
+          }}
+        >
+          Play
+        </button>
       </SimComponentStyled>
     );
   }
