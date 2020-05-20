@@ -2,6 +2,7 @@ export const TOGGLE_EDIT_MENU = "TOGGLE_EDIT_MENU";
 export const SUBMIT_STATE_TO_INITIAL = "SUBMIT_STATE_TO_INITIAL";
 export const SUBMIT_STATE_TO_TEMPORARY = "SUBMIT_STATE_TO_TEMPORARY";
 export const SUBMIT_STATE_TO_CURRENT = "SUBMIT_STATE_TO_CURRENT";
+export const SUBMIT_STATE_TO_SEQUENCE = "SUBMIT_STATE_TO_SEQUENCE";
 export const FIRE_TRANSITION = "FIRE_TRANSITION";
 
 export function toggleEditMenu() {
@@ -20,6 +21,10 @@ export function submitStateToTemporary({ nodes, links }) {
   return { type: SUBMIT_STATE_TO_TEMPORARY, payload: { nodes, links } };
 }
 
-export function fireTransition() {
-  return { type: FIRE_TRANSITION };
+export function submitStateToSequence({ nodes, links }) {
+  return { type: SUBMIT_STATE_TO_SEQUENCE, payload: { nodes, links } };
+}
+
+export function fireTransition({ next, transitions }) {
+  return { type: FIRE_TRANSITION, payload: { next, transitions } };
 }

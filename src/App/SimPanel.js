@@ -3,9 +3,12 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { fireTransition, submitStateToCurrent } from "../redux/actions";
 import PropTypes from "prop-types";
-import { getInitialState } from "../redux/selectors";
+import { getInitialState, getSequence } from "../redux/selectors";
 
-const mapStateToProps = state => ({ initialState: getInitialState(state) });
+const mapStateToProps = state => ({
+  initialState: getInitialState(state),
+  sequence: getSequence(state)
+});
 
 const mapDispatchToProps = {
   handleFireTransition: fireTransition,
@@ -15,6 +18,7 @@ const mapDispatchToProps = {
 class SimComponent extends React.Component {
   static propTypes = {
     initialState: PropTypes.object,
+    sequence: PropTypes.object,
     handleFireTransition: PropTypes.func.isRequired,
     handleSubmitStateToCurrent: PropTypes.func.isRequired
   };
@@ -22,6 +26,7 @@ class SimComponent extends React.Component {
   render() {
     const {
       initialState,
+      sequence,
       handleFireTransition,
       handleSubmitStateToCurrent
     } = this.props;
@@ -30,7 +35,7 @@ class SimComponent extends React.Component {
       <SimComponentStyled>
         <ButtonStyled
           onClick={() => {
-            handleFireTransition();
+            handleFireTransition(sequence);
           }}
         >
           fire

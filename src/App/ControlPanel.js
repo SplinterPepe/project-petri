@@ -4,27 +4,29 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import {
   getIsEditMenuToggled,
-  getCurrentState,
+  getInitialState,
   getTemporaryState
 } from "../redux/selectors";
 import {
   toggleEditMenu,
   submitStateToInitial,
   submitStateToTemporary,
-  submitStateToCurrent
+  submitStateToCurrent,
+  submitStateToSequence
 } from "../redux/actions";
 import { JsonTree } from "react-editable-json-tree";
 import SimPanel from "./SimPanel";
 
 const mapStateToProps = state => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
-  currentState: getCurrentState(state),
+  initialState: getInitialState(state),
   temporaryState: getTemporaryState(state)
 });
 
 const mapDispatchToProps = {
   handleEditMenuToggle: toggleEditMenu,
   handleSubmitStateToInitial: submitStateToInitial,
+  handleSubmitStateToSequence: submitStateToSequence,
   handleSubmitStateToTemporary: submitStateToTemporary,
   handleSubmitStateToCurrent: submitStateToCurrent
 };
@@ -32,26 +34,27 @@ const mapDispatchToProps = {
 class ControlPanel extends React.Component {
   static propTypes = {
     isEditMenuToggled: PropTypes.bool,
-    currentState: PropTypes.object,
+    initialState: PropTypes.object,
     handleEditMenuToggle: PropTypes.func.isRequired,
     handleSubmitStateToInitial: PropTypes.func.isRequired,
+    handleSubmitStateToSequence: PropTypes.func.isRequired,
     handleSubmitStateToTemporary: PropTypes.func.isRequired,
     handleSubmitStateToCurrent: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    isEditMenuToggled: false,
-    currentState: { nodes: [], links: [] }
+    isEditMenuToggled: false
   };
 
   render() {
     const {
       isEditMenuToggled,
       handleEditMenuToggle,
-      currentState,
+      initialState,
       temporaryState,
       handleSubmitStateToInitial,
       handleSubmitStateToTemporary,
+      handleSubmitStateToSequence,
       handleSubmitStateToCurrent
     } = this.props;
 
@@ -61,7 +64,7 @@ class ControlPanel extends React.Component {
         <ButtonStyled
           onClick={() => {
             handleEditMenuToggle();
-            handleSubmitStateToTemporary(currentState);
+            handleSubmitStateToTemporary(initialState);
           }}
         >
           Редактор
@@ -73,7 +76,6 @@ class ControlPanel extends React.Component {
                 data={temporaryState}
                 rootName="Элементы графа"
                 onFullyUpdate={newJson => {
-                  console.log(currentState);
                   handleSubmitStateToTemporary(
                     JSON.parse(JSON.stringify(newJson, null, 4))
                   );
@@ -85,6 +87,7 @@ class ControlPanel extends React.Component {
                 onClick={() => {
                   handleSubmitStateToCurrent(temporaryState);
                   handleSubmitStateToInitial(temporaryState);
+                  handleSubmitStateToSequence(temporaryState);
                   handleEditMenuToggle();
                 }}
               >

@@ -2,14 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import GraphComponent from "./Graph.js";
 import ControlPanel from "./ControlPanel";
-import SimPanel from "./SimPanel";
 
 function App() {
   return (
     <AppStyled>
       <ControlPanel />
       <GraphComponent />
-      <SimPanel />
     </AppStyled>
   );
 }

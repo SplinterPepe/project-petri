@@ -4,6 +4,7 @@ import {
   SUBMIT_STATE_TO_INITIAL,
   SUBMIT_STATE_TO_CURRENT,
   SUBMIT_STATE_TO_TEMPORARY,
+  SUBMIT_STATE_TO_SEQUENCE,
   FIRE_TRANSITION
 } from "./actions";
 
@@ -13,12 +14,18 @@ const initialState = (
       { id: "T1", nodeType: "transition" },
       { id: "P1", nodeType: "place", marks: 3 },
       { id: "P2", nodeType: "place", marks: 3 },
-      { id: "P3", nodeType: "place", marks: 0 }
+      { id: "P3", nodeType: "place", marks: 0 },
+      { id: "T2", nodeType: "transition" },
+      { id: "P4", nodeType: "place", marks: 0 }
     ],
     links: [
       { source: "P1", target: "T1" },
       { source: "P2", target: "T1" },
-      { source: "T1", target: "P3" }
+      { source: "T1", target: "P3" },
+      { source: "P3", target: "T2" },
+      { source: "T2", target: "P2" },
+      { source: "T2", target: "P1" },
+      { source: "T2", target: "P4" }
     ]
   },
   action
@@ -30,18 +37,25 @@ const initialState = (
       return state;
   }
 };
+
 const currentState = (
   state = {
     nodes: [
       { id: "T1", nodeType: "transition" },
       { id: "P1", nodeType: "place", marks: 3 },
       { id: "P2", nodeType: "place", marks: 3 },
-      { id: "P3", nodeType: "place", marks: 0 }
+      { id: "P3", nodeType: "place", marks: 0 },
+      { id: "T2", nodeType: "transition" },
+      { id: "P4", nodeType: "place", marks: 0 }
     ],
     links: [
       { source: "P1", target: "T1" },
       { source: "P2", target: "T1" },
-      { source: "T1", target: "P3" }
+      { source: "T1", target: "P3" },
+      { source: "P3", target: "T2" },
+      { source: "T2", target: "P2" },
+      { source: "T2", target: "P1" },
+      { source: "T2", target: "P4" }
     ]
   },
   action
@@ -56,7 +70,10 @@ const currentState = (
           node =>
             node.marks < 1 &&
             state.links.findIndex(
-              link => link.source === node.id && link.target === "T1"
+              link =>
+                link.source === node.id &&
+                link.target ===
+                  action.payload.transitions[action.payload.next].id
             ) !== -1
         ) !== -1
       )
@@ -69,7 +86,10 @@ const currentState = (
             if (
               node.nodeType === "place" &&
               state.links.findIndex(
-                item => item.target === "T1" && item.source === node.id
+                link =>
+                  link.target ===
+                    action.payload.transitions[action.payload.next].id &&
+                  link.source === node.id
               ) !== -1
             )
               return {
@@ -81,7 +101,10 @@ const currentState = (
             if (
               node.nodeType === "place" &&
               state.links.findIndex(
-                item => item.target === node.id && item.source === "T1"
+                link =>
+                  link.target === node.id &&
+                  link.source ===
+                    action.payload.transitions[action.payload.next].id
               ) !== -1
             )
               return {
@@ -108,6 +131,31 @@ const temporaryState = (state = { nodes: [], links: [] }, action) => {
   }
 };
 
+const sequence = (state = { next: 0, transitions: [] }, action) => {
+  switch (action.type) {
+    case SUBMIT_STATE_TO_SEQUENCE:
+      return {
+        next: 0,
+        transitions: action.payload.nodes.filter(
+          node => node.nodeType === "transition"
+        )
+      };
+    case FIRE_TRANSITION:
+      if (state.next + 1 === state.transitions.length)
+        return {
+          next: 0,
+          transitions: state.transitions
+        };
+      else
+        return {
+          next: state.next + 1,
+          transitions: state.transitions
+        };
+    default:
+      return state;
+  }
+};
+
 const isEditMenuToggled = (state = false, action) => {
   switch (action.type) {
     case TOGGLE_EDIT_MENU:
@@ -121,5 +169,6 @@ export const rootReducer = combineReducers({
   initialState,
   currentState,
   temporaryState,
+  sequence,
   isEditMenuToggled
 });
