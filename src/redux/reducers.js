@@ -1,11 +1,12 @@
 import { combineReducers } from "redux";
 import {
-  TOGGLE_EDIT_MENU,
   SUBMIT_STATE_TO_INITIAL,
   SUBMIT_STATE_TO_CURRENT,
   SUBMIT_STATE_TO_TEMPORARY,
   SUBMIT_STATE_TO_SEQUENCE,
-  FIRE_TRANSITION
+  FIRE_TRANSITION,
+  TOGGLE_IS_FIRING,
+  TOGGLE_EDIT_MENU
 } from "./actions";
 
 const initialState = (
@@ -156,6 +157,14 @@ const sequence = (state = { next: 0, transitions: [] }, action) => {
   }
 };
 
+const isFiring = (state = false, action) => {
+  switch (action.type) {
+    case TOGGLE_IS_FIRING:
+      return !state;
+    default:
+      return state;
+  }
+};
 const isEditMenuToggled = (state = false, action) => {
   switch (action.type) {
     case TOGGLE_EDIT_MENU:
@@ -170,5 +179,6 @@ export const rootReducer = combineReducers({
   currentState,
   temporaryState,
   sequence,
+  isFiring,
   isEditMenuToggled
 });
