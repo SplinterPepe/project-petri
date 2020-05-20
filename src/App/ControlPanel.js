@@ -18,7 +18,7 @@ import SimPanel from "./SimPanel";
 
 const mapStateToProps = state => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
-  graphData: getCurrentState(state),
+  currentState: getCurrentState(state),
   temporaryState: getTemporaryState(state)
 });
 
@@ -32,7 +32,7 @@ const mapDispatchToProps = {
 class ControlPanel extends React.Component {
   static propTypes = {
     isEditMenuToggled: PropTypes.bool,
-    graphData: PropTypes.object,
+    currentState: PropTypes.object,
     handleEditMenuToggle: PropTypes.func.isRequired,
     handleSubmitStateToInitial: PropTypes.func.isRequired,
     handleSubmitStateToTemporary: PropTypes.func.isRequired,
@@ -41,14 +41,14 @@ class ControlPanel extends React.Component {
 
   static defaultProps = {
     isEditMenuToggled: false,
-    graphData: { nodes: [], links: [] }
+    currentState: { nodes: [], links: [] }
   };
 
   render() {
     const {
       isEditMenuToggled,
       handleEditMenuToggle,
-      graphData,
+      currentState,
       temporaryState,
       handleSubmitStateToInitial,
       handleSubmitStateToTemporary,
@@ -61,7 +61,7 @@ class ControlPanel extends React.Component {
         <ButtonStyled
           onClick={() => {
             handleEditMenuToggle();
-            handleSubmitStateToTemporary(graphData);
+            handleSubmitStateToTemporary(currentState);
           }}
         >
           Редактор
@@ -73,7 +73,7 @@ class ControlPanel extends React.Component {
                 data={temporaryState}
                 rootName="Элементы графа"
                 onFullyUpdate={newJson => {
-                  console.log(graphData);
+                  console.log(currentState);
                   handleSubmitStateToTemporary(
                     JSON.parse(JSON.stringify(newJson, null, 4))
                   );

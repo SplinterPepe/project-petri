@@ -6,7 +6,7 @@ import { getCurrentState } from "../redux/selectors";
 import { Graph } from "../Graph/index";
 
 const mapStateToProps = state => ({
-  graphData: getCurrentState(state)
+  currentState: getCurrentState(state)
 });
 
 const myConfig = {
@@ -31,14 +31,14 @@ const myConfig = {
 
 class GraphComponent extends React.Component {
   static propTypes = {
-    graphData: propTypes.object.isRequired
+    currentState: propTypes.object.isRequired
   };
 
   render() {
-    const { graphData } = this.props;
+    const { currentState } = this.props;
     return (
       <GraphBoxStyled>
-        <Graph id="graph-id" data={graphData} config={myConfig}></Graph>
+        <Graph id="graph-id" data={currentState} config={myConfig}></Graph>
       </GraphBoxStyled>
     );
   }
