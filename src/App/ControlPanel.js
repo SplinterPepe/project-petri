@@ -9,10 +9,12 @@ import {
 } from "../redux/selectors";
 import {
   toggleEditMenu,
-  submitTemporaryState,
-  setTemporaryStateToCurrent
+  submitStateToInitial,
+  submitStateToTemporary,
+  submitStateToCurrent
 } from "../redux/actions";
 import { JsonTree } from "react-editable-json-tree";
+import SimPanel from "./SimPanel";
 
 const mapStateToProps = state => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
@@ -22,8 +24,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   handleEditMenuToggle: toggleEditMenu,
-  handleSubmitTemporaryState: submitTemporaryState,
-  handleSetTemporaryStateToCurrent: setTemporaryStateToCurrent
+  handleSubmitStateToInitial: submitStateToInitial,
+  handleSubmitStateToTemporary: submitStateToTemporary,
+  handleSubmitStateToCurrent: submitStateToCurrent
 };
 
 class ControlPanel extends React.Component {
@@ -31,8 +34,9 @@ class ControlPanel extends React.Component {
     isEditMenuToggled: PropTypes.bool,
     graphData: PropTypes.object,
     handleEditMenuToggle: PropTypes.func.isRequired,
-    handleSubmitTemporaryState: PropTypes.func.isRequired,
-    handleSetTemporaryStateToCurrent: PropTypes.func.isRequired
+    handleSubmitStateToInitial: PropTypes.func.isRequired,
+    handleSubmitStateToTemporary: PropTypes.func.isRequired,
+    handleSubmitStateToCurrent: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -46,8 +50,9 @@ class ControlPanel extends React.Component {
       handleEditMenuToggle,
       graphData,
       temporaryState,
-      handleSubmitTemporaryState,
-      handleSetTemporaryStateToCurrent
+      handleSubmitStateToInitial,
+      handleSubmitStateToTemporary,
+      handleSubmitStateToCurrent
     } = this.props;
 
     return (
@@ -56,7 +61,7 @@ class ControlPanel extends React.Component {
         <ButtonStyled
           onClick={() => {
             handleEditMenuToggle();
-            handleSubmitTemporaryState(graphData);
+            handleSubmitStateToTemporary(graphData);
           }}
         >
           Редактор
@@ -69,23 +74,33 @@ class ControlPanel extends React.Component {
                 rootName="Элементы графа"
                 onFullyUpdate={newJson => {
                   console.log(graphData);
-                  handleSubmitTemporaryState(
+                  handleSubmitStateToTemporary(
                     JSON.parse(JSON.stringify(newJson, null, 4))
                   );
                 }}
               />
             </JsonDataContainerStyled>
-
-            <ButtonStyled
-              onClick={() => {
-                handleSetTemporaryStateToCurrent(temporaryState);
-              }}
-            >
-              Редактор
-            </ButtonStyled>
+            <RowContainer>
+              <ButtonStyled
+                onClick={() => {
+                  handleSubmitStateToCurrent(temporaryState);
+                  handleSubmitStateToInitial(temporaryState);
+                  handleEditMenuToggle();
+                }}
+              >
+                Принять
+              </ButtonStyled>
+              <ButtonStyled
+                onClick={() => {
+                  handleEditMenuToggle();
+                }}
+              >
+                Отмена
+              </ButtonStyled>
+            </RowContainer>
           </div>
         ) : (
-          <ButtonStyled>2</ButtonStyled>
+          <SimPanel />
         )}
       </ControlPanelStyled>
     );
@@ -125,6 +140,14 @@ const ButtonStyled = styled.div`
   &:active {
     background-color: #fac480;
   }
+`;
+
+const RowContainer = styled.div`
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-weight: 1000;
+  display: flex;
+  flex-direction: row;
 `;
 
 const JsonDataContainerStyled = styled.div`
