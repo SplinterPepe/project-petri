@@ -17,7 +17,7 @@ function App() {
 const AppStyled = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #1d1f21;
+  background-color: #434a5b;
   min-height: 100vh;
   color: white;
 `;

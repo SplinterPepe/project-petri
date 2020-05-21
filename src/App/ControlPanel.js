@@ -15,7 +15,6 @@ import {
   submitStateToSequence
 } from "../redux/actions";
 import { JsonTree } from "react-editable-json-tree";
-import SimPanel from "./SimPanel";
 
 const mapStateToProps = state => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
@@ -102,20 +101,19 @@ class ControlPanel extends React.Component {
               </ButtonStyled>
             </RowContainer>
           </div>
-        ) : (
-          <SimPanel />
-        )}
+        ) : null}
       </ControlPanelStyled>
     );
   }
 }
 
 const ControlPanelStyled = styled.div`
-  width: 40vh;
-  background-color: #1d1f21;
+  width: 30vh;
+  background-color: #2a2f3a;
 `;
 
 const LogoStyled = styled.div`
+  font-size: 30px;
   cursor: pointer;
   text-align: center;
   width: auto;
@@ -132,17 +130,18 @@ const ButtonStyled = styled.div`
   font-size: 17px;
   font-weight: 700;
   flex: 1;
-  background-color: #42474e;
+  background-color: #4f5a65;
   cursor: pointer;
   padding: 0 5px;
   min-width: 50px;
   min-height: 70px;
   &:hover {
-    background-color: #f91;
+    background-color: #5f6c79;
   }
   &:active {
-    background-color: #fac480;
+    background-color: #6fb3d2;
   }
+  border: 1px solid black;
 `;
 
 const RowContainer = styled.div`

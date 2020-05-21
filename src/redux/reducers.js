@@ -9,28 +9,26 @@ import {
   TOGGLE_EDIT_MENU
 } from "./actions";
 
-const initialState = (
-  state = {
-    nodes: [
-      { id: "T1", nodeType: "transition" },
-      { id: "P1", nodeType: "place", marks: 3 },
-      { id: "P2", nodeType: "place", marks: 3 },
-      { id: "P3", nodeType: "place", marks: 0 },
-      { id: "T2", nodeType: "transition" },
-      { id: "P4", nodeType: "place", marks: 0 }
-    ],
-    links: [
-      { source: "P1", target: "T1" },
-      { source: "P2", target: "T1" },
-      { source: "T1", target: "P3" },
-      { source: "P3", target: "T2" },
-      { source: "T2", target: "P2" },
-      { source: "T2", target: "P1" },
-      { source: "T2", target: "P4" }
-    ]
-  },
-  action
-) => {
+const init = {
+  nodes: [
+    { id: "T1", nodeType: "transition" },
+    { id: "P1", nodeType: "place", marks: 3 },
+    { id: "P2", nodeType: "place", marks: 3 },
+    { id: "P3", nodeType: "place", marks: 0 },
+    { id: "T2", nodeType: "transition" },
+    { id: "P4", nodeType: "place", marks: 0 }
+  ],
+  links: [
+    { source: "P1", target: "T1" },
+    { source: "P2", target: "T1" },
+    { source: "T1", target: "P3" },
+    { source: "P3", target: "T2" },
+    { source: "T2", target: "P2" },
+    { source: "T2", target: "P1" },
+    { source: "T2", target: "P4" }
+  ]
+};
+const initialState = (state = init, action) => {
   switch (action.type) {
     case SUBMIT_STATE_TO_INITIAL:
       return action.payload;
@@ -39,28 +37,7 @@ const initialState = (
   }
 };
 
-const currentState = (
-  state = {
-    nodes: [
-      { id: "T1", nodeType: "transition" },
-      { id: "P1", nodeType: "place", marks: 3 },
-      { id: "P2", nodeType: "place", marks: 3 },
-      { id: "P3", nodeType: "place", marks: 0 },
-      { id: "T2", nodeType: "transition" },
-      { id: "P4", nodeType: "place", marks: 0 }
-    ],
-    links: [
-      { source: "P1", target: "T1" },
-      { source: "P2", target: "T1" },
-      { source: "T1", target: "P3" },
-      { source: "P3", target: "T2" },
-      { source: "T2", target: "P2" },
-      { source: "T2", target: "P1" },
-      { source: "T2", target: "P4" }
-    ]
-  },
-  action
-) => {
+const currentState = (state = init, action) => {
   switch (action.type) {
     case SUBMIT_STATE_TO_CURRENT:
       return action.payload;

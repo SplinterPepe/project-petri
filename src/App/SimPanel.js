@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import {
-  fireTransition,
-  submitStateToCurrent,
-  toggleIsFiring
-} from "../redux/actions";
+import { fireTransition, submitStateToCurrent } from "../redux/actions";
 import PropTypes from "prop-types";
 import { getInitialState, getSequence } from "../redux/selectors";
 
@@ -16,17 +12,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   handleFireTransition: fireTransition,
-  handleSubmitStateToCurrent: submitStateToCurrent,
-  handleToggleIsFiring: toggleIsFiring
+  handleSubmitStateToCurrent: submitStateToCurrent
 };
 
-class SimComponent extends React.Component {
+class SimPanel extends React.Component {
   static propTypes = {
     initialState: PropTypes.object,
     sequence: PropTypes.object,
     handleFireTransition: PropTypes.func.isRequired,
-    handleSubmitStateToCurrent: PropTypes.func.isRequired,
-    handleToggleIsFiring: PropTypes.func.isRequired
+    handleSubmitStateToCurrent: PropTypes.func.isRequired
   };
 
   render() {
@@ -34,39 +28,34 @@ class SimComponent extends React.Component {
       initialState,
       sequence,
       handleFireTransition,
-      handleSubmitStateToCurrent,
-      handleToggleIsFiring
+      handleSubmitStateToCurrent
     } = this.props;
 
     return (
-      <SimComponentStyled>
-        <ButtonStyled
-          onClick={() => {
-            handleFireTransition(sequence);
-          }}
-        >
-          fire one
-        </ButtonStyled>
+      <SimPanelStyled>
         <ButtonStyled
           onClick={() => {
             handleSubmitStateToCurrent(initialState);
           }}
         >
-          reset
+          ◄◄
         </ButtonStyled>
         <ButtonStyled
           onClick={() => {
-            handleToggleIsFiring();
+            handleFireTransition(sequence);
           }}
         >
-          FIRE
+          {" ►▏"}
         </ButtonStyled>
-      </SimComponentStyled>
+      </SimPanelStyled>
     );
   }
 }
 
-const SimComponentStyled = styled.div`
+const SimPanelStyled = styled.div`
+  margin-bottom: 5px;
+  width: auto;
+  height: 100px;
   background-size: contain;
   background-repeat: no-repeat;
   font-weight: 1000;
@@ -79,18 +68,19 @@ const ButtonStyled = styled.div`
   flex-direction: column;
   flex: 1;
   text-align: center;
-  font-size: 17px;
-  font-weight: 700;
-  background-color: #42474e;
+  font-size: 150%;
+
+  background-color: #4f5a65;
   cursor: pointer;
   padding: 0 5px;
-  min-width: 50px;
-  min-height: 70px;
+  width: 100px;
+  height: auto;
   &:hover {
-    background-color: #f91;
+    background-color: #5f6c79;
   }
   &:active {
-    background-color: #fac480;
+    background-color: #6fb3d2;
   }
+  border: 1px solid black;
 `;
-export default connect(mapStateToProps, mapDispatchToProps)(SimComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SimPanel);
