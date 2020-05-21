@@ -81,7 +81,7 @@ const ButtonStyled = styled.div`
   text-align: center;
   font-size: 17px;
   font-weight: 700;
-  background-color: #f9ad00;
+  background-color: #42474e;
   cursor: pointer;
   padding: 0 5px;
   min-width: 50px;

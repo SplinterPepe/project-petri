@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import GraphComponent from "./Graph.js";
 import ControlPanel from "./ControlPanel";
+import DevTools from "./DevTools";
 
 function App() {
   return (
     <AppStyled>
       <ControlPanel />
       <GraphComponent />
+      <DevTools />
     </AppStyled>
   );
 }
@@ -15,9 +17,8 @@ function App() {
 const AppStyled = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #282c34;
+  background-color: #1d1f21;
   min-height: 100vh;
-  font-size: calc(10px + 2vmin);
   color: white;
 `;
 

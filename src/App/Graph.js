@@ -45,10 +45,10 @@ class GraphComponent extends React.Component {
 }
 
 const GraphBoxStyled = styled.div`
-  cursor: pointer;
-  width: auto;
-  height: auto;
   background-color: white;
+  cursor: pointer;
+  width: 720px;
+  height: 720px;
 `;
 
 export default connect(mapStateToProps)(GraphComponent);

@@ -112,7 +112,7 @@ class ControlPanel extends React.Component {
 
 const ControlPanelStyled = styled.div`
   width: 40vh;
-  background-color: #f9ad00;
+  background-color: #1d1f21;
 `;
 
 const LogoStyled = styled.div`
@@ -132,7 +132,7 @@ const ButtonStyled = styled.div`
   font-size: 17px;
   font-weight: 700;
   flex: 1;
-  background-color: #f9ad00;
+  background-color: #42474e;
   cursor: pointer;
   padding: 0 5px;
   min-width: 50px;
