@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import styled from "styled-components";
 import {
   getIsEditMenuToggled,
@@ -15,6 +15,7 @@ import {
   submitStateToSequence
 } from "../redux/actions";
 import { JsonTree } from "react-editable-json-tree";
+import Stats from "./Stats";
 
 const mapStateToProps = state => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
@@ -32,13 +33,13 @@ const mapDispatchToProps = {
 
 class ControlPanel extends React.Component {
   static propTypes = {
-    isEditMenuToggled: PropTypes.bool,
-    initialState: PropTypes.object,
-    handleEditMenuToggle: PropTypes.func.isRequired,
-    handleSubmitStateToInitial: PropTypes.func.isRequired,
-    handleSubmitStateToSequence: PropTypes.func.isRequired,
-    handleSubmitStateToTemporary: PropTypes.func.isRequired,
-    handleSubmitStateToCurrent: PropTypes.func.isRequired
+    isEditMenuToggled: propTypes.bool,
+    initialState: propTypes.object,
+    handleEditMenuToggle: propTypes.func.isRequired,
+    handleSubmitStateToInitial: propTypes.func.isRequired,
+    handleSubmitStateToSequence: propTypes.func.isRequired,
+    handleSubmitStateToTemporary: propTypes.func.isRequired,
+    handleSubmitStateToCurrent: propTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -101,7 +102,9 @@ class ControlPanel extends React.Component {
               </ButtonStyled>
             </RowContainer>
           </div>
-        ) : null}
+        ) : (
+          <Stats />
+        )}
       </ControlPanelStyled>
     );
   }

@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import propTypes from "prop-types";
 import { getCurrentState } from "../redux/selectors";
-import { Graph } from "../Graph/index";
+import { Graph } from "./Graph/index";
 import SimPanel from "./SimPanel";
 
 const mapStateToProps = state => ({

@@ -1,0 +1,13 @@
+{
+  "steps": "int",
+  "transitionsFired": "int",
+  "transitionsFirednt": "int",
+  "transitions": [
+    {
+      "id": "string",
+      "timesFired": "int",
+      "timesFirednt": "int",
+      "marksPassed": "int"
+    }
+  ]
+}

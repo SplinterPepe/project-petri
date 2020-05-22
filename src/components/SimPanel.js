@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { fireTransition, submitStateToCurrent } from "../redux/actions";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { getInitialState, getSequence } from "../redux/selectors";
 
 const mapStateToProps = state => ({
@@ -17,10 +17,10 @@ const mapDispatchToProps = {
 
 class SimPanel extends React.Component {
   static propTypes = {
-    initialState: PropTypes.object,
-    sequence: PropTypes.object,
-    handleFireTransition: PropTypes.func.isRequired,
-    handleSubmitStateToCurrent: PropTypes.func.isRequired
+    initialState: propTypes.object,
+    sequence: propTypes.object,
+    handleFireTransition: propTypes.func.isRequired,
+    handleSubmitStateToCurrent: propTypes.func.isRequired
   };
 
   render() {

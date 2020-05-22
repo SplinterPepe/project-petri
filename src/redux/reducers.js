@@ -12,9 +12,9 @@ import {
 const init = {
   nodes: [
     { id: "T1", nodeType: "transition" },
-    { id: "P1", nodeType: "place", marks: 3 },
-    { id: "P2", nodeType: "place", marks: 3 },
-    { id: "P3", nodeType: "place", marks: 0 },
+    { id: "P1", nodeType: "place", marks: 1 },
+    { id: "P2", nodeType: "place", marks: 0 },
+    { id: "P3", nodeType: "place", marks: 1 },
     { id: "T2", nodeType: "transition" },
     { id: "P4", nodeType: "place", marks: 0 }
   ],
@@ -37,17 +37,26 @@ const initialState = (state = init, action) => {
   }
 };
 
-const currentState = (state = init, action) => {
+const currentState = (
+  state = {
+    stats: { steps: 0, transitionsFired: 0, transitionsFirednt: 0 },
+    graphData: init
+  },
+  action
+) => {
   switch (action.type) {
     case SUBMIT_STATE_TO_CURRENT:
-      return action.payload;
+      return {
+        stats: { steps: 0, transitionsFired: 0, transitionsFirednt: 0 },
+        graphData: action.payload
+      };
     case FIRE_TRANSITION:
       //если есть хотя бы одна позиция с недостатком меток - скип
       if (
-        state.nodes.findIndex(
+        state.graphData.nodes.findIndex(
           node =>
             node.marks < 1 &&
-            state.links.findIndex(
+            state.graphData.links.findIndex(
               link =>
                 link.source === node.id &&
                 link.target ===
@@ -55,45 +64,59 @@ const currentState = (state = init, action) => {
             ) !== -1
         ) !== -1
       )
-        return state;
+        return {
+          stats: {
+            steps: state.stats.steps + 1,
+            transitionsFired: state.stats.transitionsFired,
+            transitionsFirednt: state.stats.transitionsFirednt + 1
+          },
+          graphData: state.graphData
+        };
       //иначе перекидываем метки через переход
       else
         return {
-          nodes: state.nodes.map((node, index) => {
-            //ищем источники и вычитаем из них
-            if (
-              node.nodeType === "place" &&
-              state.links.findIndex(
-                link =>
-                  link.target ===
-                    action.payload.transitions[action.payload.next].id &&
-                  link.source === node.id
-              ) !== -1
-            )
-              return {
-                id: node.id,
-                nodeType: node.nodeType,
-                marks: node.marks - 1
-              };
-            //ищем таргеты и прибовляем к ним
-            if (
-              node.nodeType === "place" &&
-              state.links.findIndex(
-                link =>
-                  link.target === node.id &&
-                  link.source ===
-                    action.payload.transitions[action.payload.next].id
-              ) !== -1
-            )
-              return {
-                id: node.id,
-                nodeType: node.nodeType,
-                marks: node.marks + 1
-              };
-            return node;
-          }),
-          //всегда возвращаем все связи
-          links: [...state.links]
+          stats: {
+            steps: state.stats.steps + 1,
+            transitionsFired: state.stats.transitionsFired + 1,
+            transitionsFirednt: state.stats.transitionsFirednt
+          },
+          graphData: {
+            nodes: state.graphData.nodes.map((node, index) => {
+              //ищем источники и вычитаем из них
+              if (
+                node.nodeType === "place" &&
+                state.graphData.links.findIndex(
+                  link =>
+                    link.target ===
+                      action.payload.transitions[action.payload.next].id &&
+                    link.source === node.id
+                ) !== -1
+              )
+                return {
+                  id: node.id,
+                  nodeType: node.nodeType,
+                  marks: node.marks - 1
+                };
+              //ищем таргеты и прибовляем к ним
+              if (
+                node.nodeType === "place" &&
+                state.graphData.links.findIndex(
+                  link =>
+                    link.target === node.id &&
+                    link.source ===
+                      action.payload.transitions[action.payload.next].id
+                ) !== -1
+              )
+                return {
+                  id: node.id,
+                  nodeType: node.nodeType,
+                  marks: node.marks + 1
+                };
+              return node;
+            }),
+            //всегда возвращаем все связи
+            links: [...state.graphData.links]
+          }
         };
     default:
       return state;

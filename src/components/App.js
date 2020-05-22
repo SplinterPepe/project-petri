@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import GraphComponent from "./Graph.js";
+import GraphComponent from "./GraphComponent.js";
 import ControlPanel from "./ControlPanel";
 import DevTools from "./DevTools";
 
