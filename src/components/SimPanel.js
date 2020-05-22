@@ -58,7 +58,6 @@ const SimPanelStyled = styled.div`
   height: 100px;
   background-size: contain;
   background-repeat: no-repeat;
-  font-weight: 1000;
   display: flex;
   flex-direction: row;
 `;
@@ -69,7 +68,7 @@ const ButtonStyled = styled.div`
   flex: 1;
   text-align: center;
   font-size: 150%;
-
+  font-size: 60px;
   background-color: #4f5a65;
   cursor: pointer;
   padding: 0 5px;
