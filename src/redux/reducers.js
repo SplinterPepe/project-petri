@@ -21,6 +21,7 @@ const init = {
     { id: "P3", nodeType: "place", marks: 0 },
     { id: "T3", nodeType: "transition" },
     { id: "P4", nodeType: "place", marks: 1 },
+    { id: "P5", nodeType: "place", marks: 0 },
   ],
   links: [
     { source: "P1", target: "T1" },
@@ -31,6 +32,7 @@ const init = {
     { source: "P3", target: "T3" },
     { source: "T3", target: "P4" },
     { source: "P4", target: "T3" },
+    { source: "T3", target: "P5" },
   ],
 };
 const initialState = (state = init, action) => {
@@ -94,36 +96,34 @@ const currentState = (
           },
           graphData: {
             nodes: state.graphData.nodes.map((node, index) => {
-              //ищем источники и вычитаем из них
-              if (
-                node.nodeType === "place" &&
-                state.graphData.links.findIndex(
-                  (link) =>
-                    link.target ===
-                      action.payload.transitions[action.payload.next].id &&
-                    link.source === node.id
-                ) !== -1
-              )
+              if (node.nodeType === "place") {
+                let Marks = node.marks;
+                if (
+                  state.graphData.links.findIndex(
+                    (link) =>
+                      link.target ===
+                        action.payload.transitions[action.payload.next].id &&
+                      link.source === node.id
+                  ) !== -1
+                ) {
+                  Marks = Marks - 1;
+                }
+                if (
+                  state.graphData.links.findIndex(
+                    (link) =>
+                      link.target === node.id &&
+                      link.source ===
+                        action.payload.transitions[action.payload.next].id
+                  ) !== -1
+                ) {
+                  Marks = Marks + 1;
+                }
                 return {
                   id: node.id,
                   nodeType: node.nodeType,
-                  marks: node.marks - 1,
+                  marks: Marks,
                 };
-              //ищем таргеты и прибовляем к ним
-              if (
-                node.nodeType === "place" &&
-                state.graphData.links.findIndex(
-                  (link) =>
-                    link.target === node.id &&
-                    link.source ===
-                      action.payload.transitions[action.payload.next].id
-                ) !== -1
-              )
-                return {
-                  id: node.id,
-                  nodeType: node.nodeType,
-                  marks: node.marks + 1,
-                };
+              }
               return node;
             }),
             //всегда возвращаем все связи
@@ -146,7 +146,7 @@ const temporaryState = (state = { nodes: [], links: [] }, action) => {
       };
     case ADD_POSITION:
       return {
-        nodes: [...state.nodes, { id: ``, nodeType: "position", marks: 0 }],
+        nodes: [...state.nodes, { id: ``, nodeType: "place", marks: 0 }],
         links: [...state.links],
       };
     case ADD_LINK:

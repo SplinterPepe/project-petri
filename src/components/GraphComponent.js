@@ -14,7 +14,7 @@ const myConfig = {
   directed: true,
   nodeHighlightBehavior: true,
   linkHighlightBehavior: true,
-  width: 800,
+  width: 1024,
   height: 600,
   node: {
     color: "darkgrey",
@@ -57,8 +57,8 @@ class GraphComponent extends React.Component {
 const GraphAreaBoxStyled = styled.div`
   background-color: white;
   cursor: pointer;
-  width: 800px;
-  height: 600px;
+  width: 1024px;
+  height: 650px;
   border: 1px solid black;
 `;
 
@@ -67,7 +67,6 @@ const GraphBoxStyled = styled.div`
   flex-direction: column;
   padding: 10px;
   background-color: white;
-  cursor: pointer;
   width: auto;
   border: 1px solid black;
 `;

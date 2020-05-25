@@ -73,10 +73,8 @@ const ButtonStyled = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  flex: 1;
   text-align: center;
-  font-size: 150%;
-  font-size: 60px;
+  font-size: 30px;
   background-color: #4f5a65;
   cursor: pointer;
   padding: 0 5px;
