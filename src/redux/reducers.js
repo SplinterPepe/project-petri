@@ -17,15 +17,20 @@ const init = {
     { id: "T1", nodeType: "transition" },
     { id: "P1", nodeType: "place", marks: 1 },
     { id: "P2", nodeType: "place", marks: 0 },
-    { id: "P3", nodeType: "place", marks: 1 },
     { id: "T2", nodeType: "transition" },
+    { id: "P3", nodeType: "place", marks: 0 },
+    { id: "T3", nodeType: "transition" },
+    { id: "P4", nodeType: "place", marks: 1 },
   ],
   links: [
     { source: "P1", target: "T1" },
-    { source: "P2", target: "T1" },
-    { source: "T1", target: "P3" },
-    { source: "P3", target: "T2" },
-    { source: "T2", target: "P2" },
+    { source: "T1", target: "P1" },
+    { source: "T1", target: "P2" },
+    { source: "P2", target: "T2" },
+    { source: "T2", target: "P3" },
+    { source: "P3", target: "T3" },
+    { source: "T3", target: "P4" },
+    { source: "P4", target: "T3" },
   ],
 };
 const initialState = (state = init, action) => {
@@ -160,6 +165,7 @@ const sequence = (
     transitions: [
       { id: "T1", nodeType: "transition" },
       { id: "T2", nodeType: "transition" },
+      { id: "T3", nodeType: "transition" },
     ],
   },
   action

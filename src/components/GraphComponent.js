@@ -6,8 +6,8 @@ import { getCurrentState } from "../redux/selectors";
 import { Graph } from "./Graph/index";
 import SimPanel from "./SimPanel";
 
-const mapStateToProps = state => ({
-  currentState: getCurrentState(state)
+const mapStateToProps = (state) => ({
+  currentState: getCurrentState(state),
 });
 
 const myConfig = {
@@ -26,18 +26,19 @@ const myConfig = {
     labelPosition: "top",
     renderLabel: true,
     fontSize: 7,
-    highlightFontSize: 7
+    highlightFontSize: 7,
   },
   link: {
     color: "lightgrey",
     highlightColor: "#6FB3D2",
-    strokeWidth: 1.4
-  }
+    strokeWidth: 1.4,
+    type: "CURVE_SMOOTH",
+  },
 };
 
 class GraphComponent extends React.Component {
   static propTypes = {
-    currentState: propTypes.object.isRequired
+    currentState: propTypes.object.isRequired,
   };
 
   render() {
