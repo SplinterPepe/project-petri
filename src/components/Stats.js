@@ -2,18 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
-import { getStats } from "../redux/selectors";
+import { getStats, getSequence } from "../redux/selectors";
 
-const mapStateToProps = state => ({ stats: getStats(state) });
+const mapStateToProps = (state) => ({
+  stats: getStats(state),
+  sequence: getSequence(state),
+});
 
 class Stats extends React.Component {
-  static propTypes = { stats: propTypes.object };
+  static propTypes = { stats: propTypes.object, sequence: propTypes.object };
 
   render() {
-    const { stats } = this.props;
+    const { stats, sequence } = this.props;
 
     return (
       <StatsStyled>
+        <div>
+          Следующий переход:{" "}
+          <NumberStyled>{sequence.transitions[sequence.next].id}</NumberStyled>
+        </div>
         <div>
           Шагов сделано: <NumberStyled>{stats.steps}</NumberStyled>
         </div>

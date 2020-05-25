@@ -4,7 +4,7 @@ import {
   SUBMIT_STATE_TO_CURRENT,
   SUBMIT_STATE_TO_TEMPORARY,
   SUBMIT_STATE_TO_SEQUENCE,
-  FIRE_TRANSITION,
+  FIRE_TRANSITION_ON_SEQUENCE,
   TOGGLE_IS_FIRING,
   TOGGLE_EDIT_MENU,
   ADD_TRANSITION,
@@ -57,7 +57,7 @@ const currentState = (
         },
         graphData: action.payload,
       };
-    case FIRE_TRANSITION:
+    case FIRE_TRANSITION_ON_SEQUENCE:
       //если есть хотя бы одна позиция с недостатком меток - скип
       if (
         state.graphData.nodes.findIndex(
@@ -76,10 +76,6 @@ const currentState = (
             steps: state.stats.steps + 1,
             transitionsFired: state.stats.transitionsFired,
             transitionsFirednt: state.stats.transitionsFirednt + 1,
-            // transitions: [
-            //   state.stats.transitions.map((transition, index)=>{
-            //     if (transition.id === )
-            //   })
           },
           graphData: state.graphData,
         };
@@ -158,7 +154,16 @@ const temporaryState = (state = { nodes: [], links: [] }, action) => {
   }
 };
 
-const sequence = (state = { next: 0, transitions: [] }, action) => {
+const sequence = (
+  state = {
+    next: 0,
+    transitions: [
+      { id: "T1", nodeType: "transition" },
+      { id: "T2", nodeType: "transition" },
+    ],
+  },
+  action
+) => {
   switch (action.type) {
     case SUBMIT_STATE_TO_SEQUENCE:
       return {
@@ -167,7 +172,7 @@ const sequence = (state = { next: 0, transitions: [] }, action) => {
           (node) => node.nodeType === "transition"
         ),
       };
-    case FIRE_TRANSITION:
+    case FIRE_TRANSITION_ON_SEQUENCE:
       if (state.next + 1 === state.transitions.length)
         return {
           next: 0,

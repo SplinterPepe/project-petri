@@ -1,34 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { fireTransition, submitStateToCurrent } from "../redux/actions";
+import {
+  fireTransitionOnSequence,
+  submitStateToCurrent,
+} from "../redux/actions";
 import propTypes from "prop-types";
 import { getInitialState, getSequence } from "../redux/selectors";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   initialState: getInitialState(state),
-  sequence: getSequence(state)
+  sequence: getSequence(state),
 });
 
 const mapDispatchToProps = {
-  handleFireTransition: fireTransition,
-  handleSubmitStateToCurrent: submitStateToCurrent
+  handleFireTransitionOnSequence: fireTransitionOnSequence,
+  handleSubmitStateToCurrent: submitStateToCurrent,
 };
 
 class SimPanel extends React.Component {
   static propTypes = {
     initialState: propTypes.object,
     sequence: propTypes.object,
-    handleFireTransition: propTypes.func.isRequired,
-    handleSubmitStateToCurrent: propTypes.func.isRequired
+    handleFireTransitionOnSequence: propTypes.func.isRequired,
+    handleSubmitStateToCurrent: propTypes.func.isRequired,
   };
 
   render() {
     const {
       initialState,
       sequence,
-      handleFireTransition,
-      handleSubmitStateToCurrent
+      handleFireTransitionOnSequence,
+      handleSubmitStateToCurrent,
     } = this.props;
 
     return (
@@ -42,7 +45,7 @@ class SimPanel extends React.Component {
         </ButtonStyled>
         <ButtonStyled
           onClick={() => {
-            handleFireTransition(sequence);
+            handleFireTransitionOnSequence(sequence);
           }}
         >
           {" ►▏"}

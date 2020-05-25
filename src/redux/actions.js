@@ -2,7 +2,7 @@ export const SUBMIT_STATE_TO_INITIAL = "SUBMIT_STATE_TO_INITIAL";
 export const SUBMIT_STATE_TO_TEMPORARY = "SUBMIT_STATE_TO_TEMPORARY";
 export const SUBMIT_STATE_TO_CURRENT = "SUBMIT_STATE_TO_CURRENT";
 export const SUBMIT_STATE_TO_SEQUENCE = "SUBMIT_STATE_TO_SEQUENCE";
-export const FIRE_TRANSITION = "FIRE_TRANSITION";
+export const FIRE_TRANSITION_ON_SEQUENCE = "FIRE_TRANSITION_ON_SEQUENCE";
 export const TOGGLE_IS_FIRING = "TOGGLE_IS_FIRING";
 export const TOGGLE_EDIT_MENU = "TOGGLE_EDIT_MENU";
 export const ADD_TRANSITION = "ADD_TRANSITION";
@@ -25,8 +25,8 @@ export function submitStateToSequence({ nodes, links }) {
   return { type: SUBMIT_STATE_TO_SEQUENCE, payload: { nodes, links } };
 }
 
-export function fireTransition({ next, transitions }) {
-  return { type: FIRE_TRANSITION, payload: { next, transitions } };
+export function fireTransitionOnSequence({ next, transitions }) {
+  return { type: FIRE_TRANSITION_ON_SEQUENCE, payload: { next, transitions } };
 }
 
 export function toggleEditMenu() {
