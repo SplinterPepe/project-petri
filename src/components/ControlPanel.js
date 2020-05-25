@@ -5,22 +5,25 @@ import styled from "styled-components";
 import {
   getIsEditMenuToggled,
   getInitialState,
-  getTemporaryState
+  getTemporaryState,
 } from "../redux/selectors";
 import {
   toggleEditMenu,
   submitStateToInitial,
   submitStateToTemporary,
   submitStateToCurrent,
-  submitStateToSequence
+  submitStateToSequence,
+  addTransition,
+  addPosition,
+  addLink,
 } from "../redux/actions";
 import { JsonTree } from "react-editable-json-tree";
 import Stats from "./Stats";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isEditMenuToggled: getIsEditMenuToggled(state),
   initialState: getInitialState(state),
-  temporaryState: getTemporaryState(state)
+  temporaryState: getTemporaryState(state),
 });
 
 const mapDispatchToProps = {
@@ -28,7 +31,10 @@ const mapDispatchToProps = {
   handleSubmitStateToInitial: submitStateToInitial,
   handleSubmitStateToSequence: submitStateToSequence,
   handleSubmitStateToTemporary: submitStateToTemporary,
-  handleSubmitStateToCurrent: submitStateToCurrent
+  handleSubmitStateToCurrent: submitStateToCurrent,
+  handleAddTransition: addTransition,
+  handleAddPosition: addPosition,
+  handleAddLink: addLink,
 };
 
 class ControlPanel extends React.Component {
@@ -39,11 +45,14 @@ class ControlPanel extends React.Component {
     handleSubmitStateToInitial: propTypes.func.isRequired,
     handleSubmitStateToSequence: propTypes.func.isRequired,
     handleSubmitStateToTemporary: propTypes.func.isRequired,
-    handleSubmitStateToCurrent: propTypes.func.isRequired
+    handleSubmitStateToCurrent: propTypes.func.isRequired,
+    handleAddTransition: propTypes.func.isRequired,
+    handleAddPosition: propTypes.func.isRequired,
+    handleAddLink: propTypes.func.isRequired,
   };
 
   static defaultProps = {
-    isEditMenuToggled: false
+    isEditMenuToggled: false,
   };
 
   render() {
@@ -55,7 +64,10 @@ class ControlPanel extends React.Component {
       handleSubmitStateToInitial,
       handleSubmitStateToTemporary,
       handleSubmitStateToSequence,
-      handleSubmitStateToCurrent
+      handleSubmitStateToCurrent,
+      handleAddTransition,
+      handleAddPosition,
+      handleAddLink,
     } = this.props;
 
     return (
@@ -75,13 +87,34 @@ class ControlPanel extends React.Component {
               <JsonTree
                 data={temporaryState}
                 rootName="Элементы графа"
-                onFullyUpdate={newJson => {
+                onFullyUpdate={(newJson) => {
                   handleSubmitStateToTemporary(
                     JSON.parse(JSON.stringify(newJson, null, 4))
                   );
                 }}
               />
             </JsonDataContainerStyled>
+            <ButtonStyled
+              onClick={() => {
+                handleAddTransition();
+              }}
+            >
+              Добавить переход
+            </ButtonStyled>
+            <ButtonStyled
+              onClick={() => {
+                handleAddPosition();
+              }}
+            >
+              Добавить позицию
+            </ButtonStyled>
+            <ButtonStyled
+              onClick={() => {
+                handleAddLink();
+              }}
+            >
+              Добавить дугу
+            </ButtonStyled>
             <RowContainer>
               <ButtonStyled
                 onClick={() => {
