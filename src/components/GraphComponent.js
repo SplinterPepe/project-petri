@@ -70,4 +70,5 @@ const GraphBoxStyled = styled.div`
   width: auto;
   border: 1px solid black;
 `;
+
 export default connect(mapStateToProps)(GraphComponent);
