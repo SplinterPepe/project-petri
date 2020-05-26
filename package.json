@@ -1,4 +1,6 @@
 {
+  "name": "project-petri",
+  "version": "1.0.0",
   "dependencies": {
     "cra-template": "1.0.1",
     "d3": "^5.15.1",
