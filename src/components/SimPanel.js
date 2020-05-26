@@ -72,6 +72,7 @@ class SimPanel extends React.Component {
     return (
       <SimPanelStyled>
         <ButtonStyled
+          style={{ pointerEvents: isFiring ? "none" : null }}
           onClick={() => {
             handleSubmitStateToCurrent(initialState);
             handleSubmitStateToSequence(initialState);
@@ -80,6 +81,7 @@ class SimPanel extends React.Component {
           ◄◄
         </ButtonStyled>
         <ButtonStyled
+          style={{ pointerEvents: isFiring ? "none" : null }}
           ref={this.fireRef}
           onClick={() => {
             handleFireTransitionOnSequence(sequence);
@@ -98,10 +100,7 @@ class SimPanel extends React.Component {
     );
   }
 }
-// handleToggleIsFiring();
-//             setInterval(() => {
-//               if (isFiring === true) this.fireRef.current.click(), 1000;
-//             });
+
 const SimPanelStyled = styled.div`
   margin-bottom: 5px;
   width: auto;
@@ -111,6 +110,7 @@ const SimPanelStyled = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
 const ButtonStyled = styled.div`
   display: flex;
   justify-content: center;
@@ -130,4 +130,5 @@ const ButtonStyled = styled.div`
   }
   border: 1px solid black;
 `;
+
 export default connect(mapStateToProps, mapDispatchToProps)(SimPanel);

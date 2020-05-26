@@ -15,7 +15,7 @@ const myConfig = {
   nodeHighlightBehavior: true,
   linkHighlightBehavior: true,
   width: 1024,
-  height: 600,
+  height: 650,
   node: {
     color: "darkgrey",
     size: 150,
