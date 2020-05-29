@@ -9,16 +9,19 @@ export const ADD_TRANSITION = "ADD_TRANSITION";
 export const ADD_POSITION = "ADD_POSITION";
 export const ADD_LINK = "ADD_LINK";
 
-export function submitStateToInitial({ nodes, links }) {
-  return { type: SUBMIT_STATE_TO_INITIAL, payload: { nodes, links } };
+export function submitStateToInitial({ netType, nodes, links }) {
+  return { type: SUBMIT_STATE_TO_INITIAL, payload: { netType, nodes, links } };
 }
 
-export function submitStateToCurrent({ nodes, links }) {
-  return { type: SUBMIT_STATE_TO_CURRENT, payload: { nodes, links } };
+export function submitStateToCurrent({ netType, nodes, links }) {
+  return { type: SUBMIT_STATE_TO_CURRENT, payload: { netType, nodes, links } };
 }
 
-export function submitStateToTemporary({ nodes, links }) {
-  return { type: SUBMIT_STATE_TO_TEMPORARY, payload: { nodes, links } };
+export function submitStateToTemporary({ netType, nodes, links }) {
+  return {
+    type: SUBMIT_STATE_TO_TEMPORARY,
+    payload: { netType, nodes, links },
+  };
 }
 
 export function submitStateToSequence({ nodes, links }) {

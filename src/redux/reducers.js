@@ -13,13 +13,16 @@ import {
 } from "./actions";
 
 const init = {
+  netType: {
+    timed: false,
+  },
   nodes: [
-    { id: "T1", nodeType: "transition" },
+    { id: "T1", nodeType: "transition", delay: 5 },
     { id: "P1", nodeType: "place", marks: 1 },
     { id: "P2", nodeType: "place", marks: 0 },
-    { id: "T2", nodeType: "transition" },
+    { id: "T2", nodeType: "transition", delay: 1 },
     { id: "P3", nodeType: "place", marks: 0 },
-    { id: "T3", nodeType: "transition" },
+    { id: "T3", nodeType: "transition", delay: 1 },
     { id: "P4", nodeType: "place", marks: 1 },
     { id: "P5", nodeType: "place", marks: 0 },
   ],
@@ -76,6 +79,11 @@ const currentState = (
                 link.target ===
                   action.payload.transitions[action.payload.next].id
             ) !== -1
+        ) !== -1 || //если переход не сипт то  скип
+        state.graphData.nodes.findIndex(
+          (node) =>
+            node.id === action.payload.transitions[action.payload.next].id &&
+            node.sleepFor > 0
         ) !== -1
       )
         return {
@@ -84,7 +92,19 @@ const currentState = (
             transitionsFired: state.stats.transitionsFired,
             transitionsFirednt: state.stats.transitionsFirednt + 1,
           },
-          graphData: state.graphData,
+          graphData: {
+            nodes: state.graphData.nodes.map((node, index) => {
+              if (node.nodeType === "transition" && node.sleepFor > 0)
+                return {
+                  id: node.id,
+                  nodeType: node.nodeType,
+                  delay: node.delay,
+                  sleepFor: node.sleepFor - 1,
+                };
+              return node;
+            }),
+            links: [...state.graphData.links],
+          },
         };
       //иначе перекидываем метки через переход
       else
@@ -96,6 +116,26 @@ const currentState = (
           },
           graphData: {
             nodes: state.graphData.nodes.map((node, index) => {
+              if (node.nodeType === "transition") {
+                if (
+                  node.id === action.payload.transitions[action.payload.next].id
+                )
+                  // задержка перехода
+                  return {
+                    id: node.id,
+                    nodeType: node.nodeType,
+                    delay: node.delay,
+                    sleepFor: node.delay,
+                  };
+                if (node.sleepFor > 0) {
+                  return {
+                    id: node.id,
+                    nodeType: node.nodeType,
+                    delay: node.delay,
+                    sleepFor: node.sleepFor - 1,
+                  };
+                }
+              }
               if (node.nodeType === "place") {
                 let Marks = node.marks;
                 if (
@@ -135,7 +175,10 @@ const currentState = (
   }
 };
 
-const temporaryState = (state = { nodes: [], links: [] }, action) => {
+const temporaryState = (
+  state = { netType: { timed: false }, nodes: [], links: [] },
+  action
+) => {
   switch (action.type) {
     case SUBMIT_STATE_TO_TEMPORARY:
       return action.payload;
