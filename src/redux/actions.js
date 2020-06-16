@@ -4,10 +4,14 @@ export const SUBMIT_STATE_TO_CURRENT = "SUBMIT_STATE_TO_CURRENT";
 export const SUBMIT_STATE_TO_SEQUENCE = "SUBMIT_STATE_TO_SEQUENCE";
 export const FIRE_TRANSITION_ON_SEQUENCE = "FIRE_TRANSITION_ON_SEQUENCE";
 export const TOGGLE_IS_FIRING = "TOGGLE_IS_FIRING";
-export const TOGGLE_EDIT_MENU = "TOGGLE_EDIT_MENU";
+export const TOGGLE_EDITOR = "TOGGLE_EDITOR";
+export const TOGGLE_SIM = "TOGGLE_SIM";
+export const TOGGLE_STATS = "TOGGLE_STATS";
+export const SELECT_NODE = "SELECT_NODE";
 export const ADD_TRANSITION = "ADD_TRANSITION";
 export const ADD_POSITION = "ADD_POSITION";
 export const ADD_LINK = "ADD_LINK";
+export const CREATE_NEW_NET = "CREATE_NEW_NET";
 
 export function submitStateToInitial({ netType, nodes, links }) {
   return { type: SUBMIT_STATE_TO_INITIAL, payload: { netType, nodes, links } };
@@ -32,12 +36,24 @@ export function fireTransitionOnSequence({ next, transitions }) {
   return { type: FIRE_TRANSITION_ON_SEQUENCE, payload: { next, transitions } };
 }
 
-export function toggleEditMenu() {
-  return { type: TOGGLE_EDIT_MENU };
+export function toggleEditor() {
+  return { type: TOGGLE_EDITOR };
+}
+
+export function toggleSim() {
+  return { type: TOGGLE_SIM };
+}
+
+export function toggleStats() {
+  return { type: TOGGLE_STATS };
 }
 
 export function toggleIsFiring() {
   return { type: TOGGLE_IS_FIRING };
+}
+
+export function selectNode(id) {
+  return { type: SELECT_NODE, payload: id };
 }
 
 export function addTransition() {
@@ -50,4 +66,8 @@ export function addPosition() {
 
 export function addLink() {
   return { type: ADD_LINK };
+}
+
+export function createNewNet() {
+  return { type: CREATE_NEW_NET };
 }

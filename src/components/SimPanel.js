@@ -71,44 +71,52 @@ class SimPanel extends React.Component {
 
     return (
       <SimPanelStyled>
-        <ButtonStyled
-          style={{ pointerEvents: isFiring ? "none" : null }}
-          onClick={() => {
-            handleSubmitStateToCurrent(initialState);
-            handleSubmitStateToSequence(initialState);
-          }}
-        >
-          ◄◄
-        </ButtonStyled>
-        <ButtonStyled
-          style={{ pointerEvents: isFiring ? "none" : null }}
-          ref={this.fireRef}
-          onClick={() => {
-            handleFireTransitionOnSequence(sequence);
-          }}
-        >
-          {" ►▏"}
-        </ButtonStyled>
-        <ButtonStyled
-          onClick={() => {
-            this.autoFire();
-          }}
-        >
-          {isFiring ? " stop" : " auto"}
-        </ButtonStyled>
+        <div>Панель симуляции</div>
+        <RowContainer>
+          <ButtonStyled
+            style={{ pointerEvents: isFiring ? "none" : null }}
+            onClick={() => {
+              //присваиваем текущему состоянию начальное и сбрасываем последовательность
+              handleSubmitStateToCurrent(initialState);
+              handleSubmitStateToSequence(initialState);
+            }}
+          >
+            ⏮
+          </ButtonStyled>
+          <ButtonStyled
+            style={{ pointerEvents: isFiring ? "none" : null }}
+            ref={this.fireRef}
+            onClick={() => {
+              handleFireTransitionOnSequence(sequence);
+            }}
+          >
+            ⏯
+          </ButtonStyled>
+          <ButtonStyled
+            onClick={() => {
+              this.autoFire();
+            }}
+          >
+            {isFiring ? "⏸" : "▶️"}
+          </ButtonStyled>
+        </RowContainer>
       </SimPanelStyled>
     );
   }
 }
 
 const SimPanelStyled = styled.div`
-  margin-bottom: 5px;
-  width: auto;
-  height: 100px;
-  background-size: contain;
-  background-repeat: no-repeat;
+  color: #6fb3d2;
+  font-weight: 500;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  height: 70px;
+  width: 160px;
+  padding: 0px 5px 8px 5px;
+  background: #2a2f3a;
+  border-radius: 12px;
+  margin: 0 0 0 5px;
+  user-select: none;
 `;
 
 const ButtonStyled = styled.div`
@@ -119,9 +127,8 @@ const ButtonStyled = styled.div`
   font-size: 30px;
   background-color: #4f5a65;
   cursor: pointer;
-  padding: 0 5px;
-  width: 100px;
-  height: auto;
+  width: 50px;
+  height: 50px;
   &:hover {
     background-color: #5f6c79;
   }
@@ -129,6 +136,12 @@ const ButtonStyled = styled.div`
     background-color: #6fb3d2;
   }
   border: 1px solid black;
+  user-select: none;
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimPanel);

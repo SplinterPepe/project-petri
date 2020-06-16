@@ -4,8 +4,8 @@ import { rootReducer } from "./reducers";
 
 const store = createStore(
   rootReducer,
-  require("../components/DevTools").default.instrument()
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // require("../components/DevTools").default.instrument()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;

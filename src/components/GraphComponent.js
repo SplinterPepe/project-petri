@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import propTypes from "prop-types";
 import { getCurrentState } from "../redux/selectors";
+import { selectNode } from "../redux/actions";
 import { Graph } from "./Graph/index";
-import SimPanel from "./SimPanel";
 
 const mapStateToProps = (state) => ({
   currentState: getCurrentState(state),
 });
+
+const mapDispatchToProps = {
+  handleSelectNode: selectNode,
+};
 
 const myConfig = {
   directed: true,
@@ -42,33 +46,29 @@ class GraphComponent extends React.Component {
   };
 
   render() {
-    const { currentState } = this.props;
+    const { currentState, handleSelectNode } = this.props;
     return (
       <GraphBoxStyled>
-        <SimPanel />
-        <GraphAreaBoxStyled>
-          <Graph id="graph-id" data={currentState} config={myConfig}></Graph>
-        </GraphAreaBoxStyled>
+        <Graph
+          id="graph-id"
+          data={currentState}
+          config={myConfig}
+          onClickNode={(id) => {
+            handleSelectNode(id);
+          }}
+        ></Graph>
       </GraphBoxStyled>
     );
   }
 }
 
-const GraphAreaBoxStyled = styled.div`
+const GraphBoxStyled = styled.div`
   background-color: white;
   cursor: pointer;
   width: 1024px;
   height: 650px;
-  border: 1px solid black;
+  border-radius: 12px;
+  margin: 5px;
 `;
 
-const GraphBoxStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  background-color: white;
-  width: auto;
-  border: 1px solid black;
-`;
-
-export default connect(mapStateToProps)(GraphComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(GraphComponent);

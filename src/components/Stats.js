@@ -17,20 +17,21 @@ class Stats extends React.Component {
 
     return (
       <StatsStyled>
+        <div>Статистика</div>
         <div>
           Следующий переход:{" "}
-          <NumberStyled>{sequence.transitions[sequence.next].id}</NumberStyled>
+          <ValueStyled>{sequence.transitions[sequence.next].id}</ValueStyled>
         </div>
         <div>
-          Шагов сделано: <NumberStyled>{stats.steps}</NumberStyled>
+          Шагов сделано: <ValueStyled>{stats.steps}</ValueStyled>
         </div>
         <div>
           Переходов сработало:{" "}
-          <NumberStyled>{stats.transitionsFired}</NumberStyled>
+          <ValueStyled>{stats.transitionsFired}</ValueStyled>
         </div>
         <div>
           Переходов не сработало:{" "}
-          <NumberStyled>{stats.transitionsFirednt}</NumberStyled>
+          <ValueStyled>{stats.transitionsFirednt}</ValueStyled>
         </div>
       </StatsStyled>
     );
@@ -40,11 +41,16 @@ const StatsStyled = styled.div`
   display: flex;
   flex-direction: column;
   color: #6fb3d2;
-  margin: 5px;
   font-weight: 500;
+  border-radius: 12px;
+  margin: 0 0 0 5px;
+  padding: 0px 5px 8px 5px;
+  background: #2a2f3a;
+  height: 300px;
+  user-select: none;
 `;
 
-const NumberStyled = styled.span`
+const ValueStyled = styled.span`
   color: #a1c659;
 `;
 

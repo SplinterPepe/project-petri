@@ -1,25 +1,50 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import GraphComponent from "./GraphComponent.js";
-import ControlPanel from "./ControlPanel";
-import DevTools from "./DevTools";
+import Editor from "./Editor";
+import SimPanel from "./SimPanel";
+import Stats from "./Stats";
+import Header from "./Header";
+import {
+  getIsEditorToggled,
+  getIsSimToggled,
+  getIsStatsToggled,
+} from "../redux/selectors";
 
-function App() {
-  return (
-    <AppStyled>
-      <ControlPanel />
-      <GraphComponent />
-      <DevTools />
-    </AppStyled>
-  );
+const mapStateToProps = (state) => ({
+  isEditorToggled: getIsEditorToggled(state),
+  isSimToggled: getIsSimToggled(state),
+  isStatsToggled: getIsStatsToggled(state),
+});
+
+class App extends React.Component {
+  render() {
+    const { isEditorToggled, isSimToggled, isStatsToggled } = this.props;
+
+    return (
+      <AppStyled>
+        <Header />
+        <AppContentStyled>
+          <GraphComponent />
+          {isSimToggled ? <SimPanel /> : null}
+          {isStatsToggled ? <Stats /> : null}
+          {isEditorToggled ? <Editor /> : null}
+        </AppContentStyled>
+      </AppStyled>
+    );
+  }
 }
 
 const AppStyled = styled.div`
-  display: flex;
-  flex-direction: row;
   background-color: #434a5b;
   min-height: 100vh;
-  color: white;
 `;
 
-export default App;
+const AppContentStyled = styled.div`
+  display: flex;
+  color: white;
+  flex-wrap: wrap;
+`;
+
+export default connect(mapStateToProps)(App);
